@@ -1,5 +1,5 @@
 {
-    "name": "Setitch/php-jira-api-rest-client",
+    "name": "setitch/php-jira-api-rest-client",
     "description": "Client for Jira REST Api written in PHP.",
     "type": "library",
     "keywords": ["jira", "jira-php", "jira-rest", "jira-api", "php", "library", "client"],
