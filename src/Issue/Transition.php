@@ -1,8 +1,8 @@
 <?php
 
-namespace JiraRestApi\Issue;
+namespace Jira\Api\Issue;
 
-use JiraRestApi\Issue\IssueField;
+use Jira\Api\Issue\IssueField;
 
 class TransitionTo
 {

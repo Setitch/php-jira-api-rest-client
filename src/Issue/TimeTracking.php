@@ -5,12 +5,12 @@
  * Date: 29.07.15
  * Time: 21:27
  */
-namespace JiraRestApi\Issue;
+namespace Jira\Api\Issue;
 
 /**
  * Class TimeTracking
  *
- * @package JiraRestApi\Issue
+ * @package Jira\Api\Issue
  */
 class TimeTracking implements \JsonSerializable
 {

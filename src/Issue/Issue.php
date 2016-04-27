@@ -1,6 +1,6 @@
 <?php
 
-namespace JiraRestApi\Issue;
+namespace Jira\Api\Issue;
 
 class Issue implements \JsonSerializable
 {
@@ -17,11 +17,14 @@ class Issue implements \JsonSerializable
     /* @var string */
     public $id;
 
-   /* @var string */
-   public $key;
+    /* @var string */
+    public $key;
 
     /** @var IssueField */
-   public $fields;
+    public $fields;
+
+    /** @var string[] */
+    public $names;
 
     public function jsonSerialize()
     {

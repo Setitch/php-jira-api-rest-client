@@ -1,8 +1,8 @@
 <?php
 
-namespace JiraRestApi\Issue;
+namespace Jira\Api\Issue;
 
-class IssueService extends \JiraRestApi\JiraClient
+class IssueService extends \Jira\Api\Client
 {
     private $uri = '/issue';
 
@@ -13,8 +13,8 @@ class IssueService extends \JiraRestApi\JiraClient
      */
     public function get($issueIdOrKey)
     {
-        $ret = $this->exec($this->uri."/$issueIdOrKey", null);
-
+        $ret = $this->exec($this->uri."/$issueIdOrKey?expand=names", null);
+        $j = json_decode($ret);
         $this->log->addInfo("Result=\n".$ret);
 
         $issue = $this->json_mapper->map(
@@ -47,6 +47,7 @@ class IssueService extends \JiraRestApi\JiraClient
         $issue = $this->json_mapper->map(
              json_decode($ret), new Issue()
         );
+        
 
         return $issue;
     }
@@ -68,7 +69,7 @@ class IssueService extends \JiraRestApi\JiraClient
         $resArr = array();
         foreach ($results as $ret) {
             array_push($resArr, $this->json_mapper->mapArray(
-               json_decode($ret), new \ArrayObject(), '\JiraRestApi\Issue\Attachment'
+               json_decode($ret), new \ArrayObject(), '\Jira\Api\Issue\Attachment'
                 )
             );
         }
@@ -96,6 +97,24 @@ class IssueService extends \JiraRestApi\JiraClient
         $data = json_encode($issue);
 
         $this->log->addInfo("Update Issue=\n".$data);
+
+        $ret = $this->exec($this->uri."/$issueIdOrKey", $data, 'PUT');
+
+        return $ret;
+    }
+    public function setLabel($issueIdOrKey, $label)
+    {
+        $issue = new Issue();
+        $labels = is_array($label) ? $label : [$label];
+
+        // serilize only not null field.
+        $issue->update = new \stdClass();
+        $issue->update->labels = [['set' => $labels]];
+
+
+        $data = json_encode($issue);
+
+        $this->log->addInfo("Update Label for Issue=\n".$data);
 
         $ret = $this->exec($this->uri."/$issueIdOrKey", $data, 'PUT');
 
@@ -142,7 +161,7 @@ class IssueService extends \JiraRestApi\JiraClient
         $data = json_encode(json_decode($ret)->transitions);
 
         $transitions = $this->json_mapper->mapArray(
-           json_decode($data), new \ArrayObject(), '\JiraRestApi\Issue\Transition'
+           json_decode($data), new \ArrayObject(), '\Jira\Api\Issue\Transition'
         );
 
         return $transitions;
@@ -204,16 +223,16 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @return IssueSearchResult
      */
-    public function search($jql, $startAt=0, $maxResults=15, $fields=[])
+    public function search($jql, $startAt=0, $maxResults=15, $fields=[], $expand = [])
     {
         $data = json_encode(array(
             'jql' => $jql,
             'startAt' => $startAt,
             'maxResults' => $maxResults,
-            'fields' => $fields
+            'fields' => $fields,
+            'expand' => implode(',',$expand),
         ));
-
-        $ret = $this->exec("search", $data, 'POST');
+        $ret = $this->exec("search", $data, 'GET');
 
         $result = $this->json_mapper->map(
             json_decode($ret), new IssueSearchResult()
@@ -224,8 +243,8 @@ class IssueService extends \JiraRestApi\JiraClient
 
     /**
      * get TimeTracking info
-     * 
-     * @param type $issueIdOrKey 
+     *
+     * @param type $issueIdOrKey
      * @return type @TimeTracking
      */
     public function getTimeTracking($issueIdOrKey)
@@ -240,7 +259,7 @@ class IssueService extends \JiraRestApi\JiraClient
         return $issue->fields->timeTracking;
     }
 
-     /**
+    /**
      * TimeTracking issues
      *
      * @param issueIdOrKey Issue id or key
@@ -249,7 +268,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @return type @TimeTracking
      */
     public function timeTracking($issueIdOrKey, $timeTracking)
-    {   
+    {
         $array = ["update" =>
             [
                 "timetracking" => [
@@ -263,11 +282,28 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->addDebug("TimeTracking req=$data\n");
 
         // if success, just return HTTP 201.
-        $ret = $this->exec($this->uri . "/$issueIdOrKey", $data, 'PUT');   
+        $ret = $this->exec($this->uri . "/$issueIdOrKey", $data, 'PUT');
 
         return $ret;
     }
-}
+    /**
+    * @param issueIdOrKey Issue id or key
+    * @return type @Worklogs
+    */
+    public function getWorklogs($issueIdOrKey, $startAt = 0, $maxResults = 100)
+    {
+        $data = null;
+        //GET /rest/api/2/issue/{issueIdOrKey}/worklog
+//        $data = json_encode(array(
+//            'startAt' => $startAt,
+//            'maxResults' => $maxResults,
+//        ));
 
-?>
+        $this->log->addDebug('Worklog for: '.$issueIdOrKey);
+        $ret = $this->exec($this->uri . "/$issueIdOrKey/worklog", $data, 'GET');
+        $ret = $this->json_mapper->map(json_decode($ret), new \Jira\Api\Issue\Worklogs());
+        
+        return $ret;
+    }
+}
 

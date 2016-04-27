@@ -1,19 +1,37 @@
 <?php
 
-namespace JiraRestApi\Issue;
+namespace Jira\Api\Issue;
 
 class IssueField implements \JsonSerializable
 {
+    protected $otherVals = [];
+    public function __set($name, $val) {
+        $this->otherVals[$name] = $val;
+    }
+
+    public function __get($name) {
+        return isset($this->otherVals[$name]) ? $this->otherVals[$name] : null;
+    }
+    
+    public function __isset($name) {
+        return isset($this->otherVals[$name]);
+    }
+
+    
+    public function getOtherVals() {
+        return $this->otherVals;
+    }
+
     public function __construct($updateIssue = false)
     {
         if ($updateIssue != true) {
-            $this->project = new \JiraRestApi\Project\Project();
+            $this->project = new \Jira\Api\Project\Project();
 
-            $this->assignee = new \JiraRestApi\Issue\Reporter();
-            $this->priority = new \JiraRestApi\Issue\Priority();
+            $this->assignee = new \Jira\Api\Issue\Reporter();
+            $this->priority = new \Jira\Api\Issue\Priority();
             $this->versions = array();
 
-            $this->issuetype = new \JiraRestApi\Issue\IssueType();
+            $this->issuetype = new \Jira\Api\Issue\IssueType();
         }
     }
 
@@ -55,18 +73,32 @@ class IssueField implements \JsonSerializable
     public function setReporterName($name)
     {
         if (is_null($this->reporter)) {
-            $this->reporter = new \JiraRestApi\Issue\Reporter();
+            $this->reporter = new \Jira\Api\Issue\Reporter();
         }
 
         $this->reporter->name = $name;
 
         return $this;
     }
+    
+//    public function setWorklogs($wl) { $this->setWorklog($wl); }
+    public function setWorklog($wl)
+    {
+        if (is_null($this->worklog)) {
+            $this->worklog = new \Jira\Api\Issue\Worklogs();
+        }
+        
+        $this->worklog -> maxResults = $wl->maxResults;
+        $this->worklog -> startAt = $wl->startAt;
+        $this->worklog -> total = $wl->total;
+        $this->worklog -> addWorklog($wl->worklogs);
+////        $this->worklog = $wl;
+    }
 
     public function setAssigneeName($name)
     {
         if (is_null($this->assignee)) {
-            $this->assignee = new \JiraRestApi\Issue\Reporter();
+            $this->assignee = new \Jira\Api\Issue\Reporter();
         }
 
         $this->assignee->name = $name;
@@ -77,7 +109,7 @@ class IssueField implements \JsonSerializable
     public function setPriorityName($name)
     {
         if (is_null($this->priority)) {
-            $this->priority = new \JiraRestApi\Issue\Priority();
+            $this->priority = new \Jira\Api\Issue\Priority();
         }
 
         $this->priority->name = $name;
@@ -107,13 +139,21 @@ class IssueField implements \JsonSerializable
 
     public function addComment($comment)
     {
-        if (is_null($this->comments)) {
-            $this->comments = new \JiraRestApi\Issue\Comments();
+        if (is_null($this->comment)) {
+            $this->comment = new \Jira\Api\Issue\Comments();
         }
+        
+        $this->comment->comments[] = $comment;
 
         array_push($this->versions, $v);
 
         return $this;
+    }
+    
+    public function getComments() {
+        if (is_null($this->comment)) return [];
+        else
+            return $this->comment->comments;
     }
 
     public function addLabel($label)
@@ -127,13 +167,13 @@ class IssueField implements \JsonSerializable
         return $this;
     }
 
-    public function setIssueType($name)
+    public function setIssueType($type)
     {
         if (is_null($this->issuetype)) {
-            $this->issuetype = new \JiraRestApi\Issue\IssueType();
+            $this->issuetype = new \Jira\Api\Issue\IssueType();
         }
 
-        $this->issuetype->name = $name;
+        $this->issuetype = $type;
 
         return $this;
     }
@@ -179,7 +219,7 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $labels;
 
-    /** @var \JiraRestApi\Project\Project */
+    /** @var \Jira\Api\Project\Project */
     public $project;
 
     /** @var string */
@@ -189,7 +229,7 @@ class IssueField implements \JsonSerializable
     public $components;
 
     /** @var Comments */
-    public $comments;
+    public $comment;
 
     /** @var object */
     public $votes;
@@ -212,10 +252,10 @@ class IssueField implements \JsonSerializable
     /** @var Reporter */
     public $assignee;
 
-    /** @var \JiraRestApi\Issue\Version[] */
+    /** @var \Jira\Api\Issue\Version[] */
     public $versions;
 
-    /** @var \JiraRestApi\Issue\Attachment[] */
+    /** @var \Jira\Api\Issue\Attachment[] */
     public $attachments;
 
     /** @var  string */

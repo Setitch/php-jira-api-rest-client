@@ -1,6 +1,6 @@
 <?php
 
-namespace JiraRestApi\Project;
+namespace Jira\Api\Project;
 
 class Component
 {

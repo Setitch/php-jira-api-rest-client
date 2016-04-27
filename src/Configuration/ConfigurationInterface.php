@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: keanor
- * Date: 17.08.15
- * Time: 21:58
- */
-namespace JiraRestApi\Configuration;
+namespace Jira\Api\Configuration;
 
 /**
  * Interface ConfigurationInterface
  *
- * @package JiraRestApi\Configuration
+ * @package Jira\Api\Configuration
  */
 interface ConfigurationInterface
 {
@@ -69,4 +63,9 @@ interface ConfigurationInterface
      * @return boolean
      */
     public function isCurlOptVerbose();
+
+    /**
+    * @return \JsonMapper\Interface
+    */
+    public function getMapper();
 }

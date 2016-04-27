@@ -1,8 +1,8 @@
 <?php
 
-namespace JiraRestApi\Project;
+namespace Jira\Api\Project;
 
-class ProjectService extends \JiraRestApi\JiraClient
+class ProjectService extends \Jira\Api\Client
 {
     private $uri = '/project';
 
@@ -16,7 +16,7 @@ class ProjectService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri, null);
 
         $prjs = $this->json_mapper->mapArray(
-             json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Project\Project'
+             json_decode($ret, false), new \ArrayObject(), '\Jira\Api\Project\Project'
         );
 
         return $prjs;
@@ -44,6 +44,4 @@ class ProjectService extends \JiraRestApi\JiraClient
         return $prj;
     }
 }
-
-?>
 

@@ -1,19 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: keanor
- * Date: 17.08.15
- * Time: 22:23
- */
-
-namespace JiraRestApi\Configuration;
+namespace Jira\Api\Configuration;
 
 /**
  * Class AbstractConfiguration
  *
- * @package JiraRestApi\Configuration
+ * @package Jira\Api\Configuration
  */
-abstract class AbstractConfiguration implements ConfigurationInterface
+abstract class AbstractConfiguration implements \Jira\Api\Configuration\ConfigurationInterface
 {
     /**
      * Jira host
@@ -70,6 +63,8 @@ abstract class AbstractConfiguration implements ConfigurationInterface
      * @var boolean
      */
     protected $curlOptVerbose;
+
+    protected $mapper = null;
 
     /**
      * @return string
@@ -133,5 +128,10 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     public function isCurlOptVerbose()
     {
         return $this->curlOptVerbose;
+    }
+
+    public function getMapper()
+    {
+        return $this->mapper;
     }
 }

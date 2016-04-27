@@ -6,12 +6,12 @@
  * Time: 13:12
  */
 
-namespace JiraRestApi\Issue;
+namespace Jira\Api\Issue;
 
 /**
  * Issue search result
  *
- * @package JiraRestApi\Issue
+ * @package Jira\Api\Issue
  */
 class IssueSearchResult
 {
@@ -100,7 +100,7 @@ class IssueSearchResult
      * @param Issue[] $issues
      */
     public function setIssues($issues)
-    {
+    {                                 
         $this->issues = $issues;
     }
 

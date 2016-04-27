@@ -1,19 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: keanor
- * Date: 17.08.15
- * Time: 22:40
- */
-
-namespace JiraRestApi\Configuration;
+namespace Jira\Api\Configuration;
 
 /**
  * Class ArrayConfiguration
  *
- * @package JiraRestApi\Configuration
+ * @package Jira\Api\Configuration
  */
-class ArrayConfiguration extends AbstractConfiguration
+class ArrayConfiguration extends AbstractConfiguration //implements \ArrayAccess
 {
     /**
      * @param array $configuration

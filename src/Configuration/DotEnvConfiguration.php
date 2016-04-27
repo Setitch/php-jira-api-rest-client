@@ -5,14 +5,14 @@
  * Date: 17.08.15
  * Time: 22:01
  */
-namespace JiraRestApi\Configuration;
+namespace Jira\Api\Configuration;
 
 use Dotenv;
 
 /**
  * Class DotEnvConfiguration
  *
- * @package JiraRestApi\Configuration
+ * @package Jira\Api\Configuration
  */
 class DotEnvConfiguration extends AbstractConfiguration
 {

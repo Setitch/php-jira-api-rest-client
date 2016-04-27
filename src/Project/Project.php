@@ -1,6 +1,6 @@
 <?php
 
-namespace JiraRestApi\Project;
+namespace Jira\Api\Project;
 
 class Project
 {
@@ -59,10 +59,10 @@ class Project
      /* Project leader info @var array */
      public $lead;
 
-     /* @var ComponentList[\JiraRestApi\Project\Component] */
+     /* @var ComponentList[\Jira\Api\Project\Component] */
      public $components;
 
-     /* @var IssueTypeList[\JiraRestApi\Issue\IssueType] */
+     /* @var IssueTypeList[\Jira\Api\Issue\IssueType] */
      public $issueTypes;
 
      /* @var string */
