@@ -1,5 +1,5 @@
 <?php
-namespace Jira;
+namespace Jira\Api;
 
 /**
 * Kontenerek dla refleksji
