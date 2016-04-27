@@ -10,16 +10,16 @@ Documentation in progress but most usability is left intact.
 * More data fetched properly from Jira API. [comments]
 * Using Rotating Files instead of Stream logging.
 * Added
-~*  Change Issue Labels
-~*  Fetching WorkLogs
-~*  It is now possible to save custom fields with this project.
-~*  Function for fixing dates (changing timezone for fetching correct date in php).
-~*  Accounts
-~~* Adding and Removing Users from Groups (Creating groups too).
+* -  Change Issue Labels
+* -  Fetching WorkLogs
+* -  It is now possible to save custom fields with this project.
+* -  Function for fixing dates (changing timezone for fetching correct date in php).
+* - -  Accounts
+* - * Adding and Removing Users from Groups (Creating groups too).
 
 * Fixes
-~* Timeout stopping whole scripts (15 sec for connection, 45 for data);
-~* Retries of execution of curl (3);
+* * Timeout stopping whole scripts (15 sec for connection, 45 for data);
+* * Retries of execution of curl (3);
 
 
 # TODO
