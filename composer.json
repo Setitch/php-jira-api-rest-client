@@ -1,8 +1,12 @@
 {
-    "name": "Setitch/php-jira-rest-client",
-    "description": "JIRA REST API Client for PHP Users.",
+    "name": "Setitch/php-jira-api-rest-client",
+    "description": "Client for Jira REST Api written in PHP.",
     "type": "library",
-    "keywords": ["jira", "jira-php", "jira-rest", "jira-api"],
+    "keywords": ["jira", "jira-php", "jira-rest", "jira-api", "php", "library", "client"],
+	"support": {
+		"issues": "https://github.com/Setitch/php-jira-api-rest-client/issues",
+		"source": "https://github.com/Setitch/php-jira-api-rest-client"
+	},
     "require": {
         "php": ">=5.5.0",
         "netresearch/jsonmapper": "~0.5",
@@ -18,17 +22,18 @@
 		{
 			"name": "Artur (Seti) Łabudziński",
 			"email": "github@chibi.pl",
-			"homepage": "http://chibi.pl/"
+			"homepage": "http://chibi.pl/",
 		},
         {
             "name": "KwangSeob Jeong",
             "email": "lesstif@gmail.com",
-            "homepage": "http://lesstif.com/"
+            "homepage": "http://lesstif.com/",
+			"Role": "First Authour / Creator"
         }
     ],
     "autoload": {
         "psr-4" : {
-            "Jira\\Api\\" : "src"
+            "Jira\\Api\\" : "src/"
         }
     }
 }
