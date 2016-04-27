@@ -19,16 +19,16 @@
     },
     "license": "Apache 2.0",
     "authors": [
-		{
-			"name": "Artur (Seti) Łabudziński",
-			"email": "github@chibi.pl",
-			"homepage": "http://chibi.pl/",
-		},
+	{
+		"name": "Artur (Seti) Łabudziński",
+		"email": "github@chibi.pl",
+		"homepage": "http://chibi.pl/"
+	},
         {
             "name": "KwangSeob Jeong",
             "email": "lesstif@gmail.com",
             "homepage": "http://lesstif.com/",
-			"Role": "First Authour / Creator"
+	    "Role": "First Authour / Creator"
         }
     ],
     "autoload": {
