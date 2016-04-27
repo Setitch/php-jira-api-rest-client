@@ -17,9 +17,9 @@ Documentation in progress but most usability is left intact.
 * - -  Accounts
 * - * Adding and Removing Users from Groups (Creating groups too).
 
-* Fixes
-* * Timeout stopping whole scripts (15 sec for connection, 45 for data);
-* * Retries of execution of curl (3);
+# Fixes
+* - Timeout stopping whole scripts (15 sec for connection, 45 for data);
+* - Retries of execution of curl (3);
 
 
 # TODO
