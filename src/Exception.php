@@ -9,7 +9,3 @@ class Exception extends \Exception
 
 }
 
-/**
-* Nazwany wyjątek dla Jiry
-*/
-class JIRAException extends Exception {}

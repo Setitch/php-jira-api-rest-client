@@ -9,6 +9,7 @@ use Jira\Api\Configuration\DotEnvConfiguration;
 use Monolog\Logger as Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\RotatingFileHandler;
+use Jira\Api\Exception as Exception;
 /**
  * Interact jira server with REST API.
  * @author Artur (Seti) Łabudziński
@@ -133,7 +134,7 @@ class Client
      * @param null $custom_request
      *
      * @return string
-     * @throws JIRAException
+     * @throws Exception
      */
     public function exec($context, $post_data = null, $custom_request = null, $tries = 3)
     {
@@ -203,14 +204,14 @@ class Client
             }
             // HostNotFound, No route to Host, etc Network error
             $this->log->addError('CURL Error: = '.$body);
-            throw new JiraException('CURL Error: = '.$body);
+            throw new Exception('CURL Error: = '.$body);
         } else {
             // if request was ok, parsing http response code.
             $this->http_response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
             // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
             if ($this->http_response != 200 && $this->http_response != 201) {
-                throw new JiraException('CURL HTTP Request Failed: Status Code : '
+                throw new Exception('CURL HTTP Request Failed: Status Code : '
                  .$this->http_response.', URL:'.$url
                  ."\nError Message : ".$response, $this->http_response);
             }
@@ -281,7 +282,7 @@ class Client
      * @param array  $filePathArray upload file path.
      *
      * @return array
-     * @throws JiraException
+     * @throws Exception
      */
     public function upload($context, $filePathArray)
     {
@@ -344,7 +345,7 @@ end:
         curl_multi_close($mh);
         if ($result_code != 200) {
             // @TODO $body might have not been defined
-            throw new JIRAException('CURL Error: = '.$body, $result_code);
+            throw new Exception('CURL Error: = '.$body, $result_code);
         }
         return $results;
     }

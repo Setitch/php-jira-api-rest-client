@@ -16,7 +16,7 @@ class AccountService extends \Jira\Api\Client
         
         try {
             $ret = $this->exec($this->uri.'/user?groupname=' . $name, $json, 'POST');
-        } catch (\Jira\Api\JIRAException $e) {
+        } catch (\Jira\Api\Exception $e) {
             $code = $e -> getCode();
             $err = $e -> getMessage();
             
@@ -44,7 +44,7 @@ class AccountService extends \Jira\Api\Client
         {
             $ret = $this->exec($this->uri.'/user?username='.$userName.'&groupname=' . $name, null , 'DELETE');
         }
-        catch (\Jira\Api\JIRAException $e)
+        catch (\Jira\Api\Exception $e)
         {
             $code = $e -> getCode();
             $err = $e -> getMessage();
