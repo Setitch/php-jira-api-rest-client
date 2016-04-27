@@ -18,6 +18,14 @@ class AccountService extends \Jira\Api\Client
             $ret = $this->exec($this->uri.'/user?groupname=' . $name, $json, 'POST');
         } catch (\Jira\Api\JIRAException $e) {
             $code = $e -> getCode();
+            $err = $e -> getMessage();
+            
+            if (FALSE !== strpos($err, "Cannot add user. '$userName' does not exist"))
+                return -1;
+            
+            if (FALSE !== strpos($err, "Cannot add user '$userName', user is already a member of '$name'"))
+                return -2;
+            
             if ($code !== 0)
                 return $code;
         }
@@ -39,6 +47,14 @@ class AccountService extends \Jira\Api\Client
         catch (\Jira\Api\JIRAException $e)
         {
             $code = $e -> getCode();
+            $err = $e -> getMessage();
+
+            if (FALSE !== strpos($err, "User '$userName' does not exist"))
+                return -1;
+            
+            if (FALSE !== strpos($err, "Cannot remove user '$userName' from group '$name' since user is not a member of '$name'"))
+                return -2;
+
             return $code;
         }
         return 0;
