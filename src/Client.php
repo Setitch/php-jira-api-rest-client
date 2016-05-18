@@ -70,7 +70,7 @@ class Client
         if ($this->configuration->getMapper())
             $this->json_mapper = $this->configuration->getMapper();
         else
-            $this->json_mapper = new \Jira\Mapper();
+            $this->json_mapper = new \Jira\Api\Mapper();
 
         self::$jMapper = $this->json_mapper;
         // create logger
