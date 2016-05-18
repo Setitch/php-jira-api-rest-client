@@ -15,7 +15,7 @@ class AccountService extends \Jira\Api\Client
         ]);
         
         try {
-            $ret = $this->exec($this->uri.'/user?groupname=' . $name, $json, 'POST');
+            $ret = $this->exec($this->uri.'/user?groupname=' . $this->filterName($name).'', $json, 'POST');
         } catch (\Jira\Api\Exception $e) {
             $code = $e -> getCode();
             $err = $e -> getMessage();
@@ -42,7 +42,7 @@ class AccountService extends \Jira\Api\Client
         
         try
         {
-            $ret = $this->exec($this->uri.'/user?username='.$userName.'&groupname=' . $name, null , 'DELETE');
+            $ret = $this->exec($this->uri.'/user?username='.$userName.'&groupname=' . $this->filterName($name).'', null , 'DELETE');
         }
         catch (\Jira\Api\Exception $e)
         {
@@ -65,7 +65,7 @@ class AccountService extends \Jira\Api\Client
      */
     public function getGroup($name)
     {
-        $ret = $this->exec($this->uri.'?groupname=' . $name);
+        $ret = $this->exec($this->uri.'?groupname=' . $this->filterName($name, '+') .'');
 //        $ret = $this->exec($this->uri.'/member?groupname=' . $name);
 
         $group = $this->json_mapper->map(
@@ -88,14 +88,14 @@ class AccountService extends \Jira\Api\Client
         while ($page * $onPage < $max)
         {
             $json = json_encode([
-                'groupname' => $name,
+                'groupname' => $this->filterName($name),
                 'maxResults' => $max,
                 'startAt' => $onPage * $page,
             ]);
-            $ret = $this->exec($this->uri."?expand=users&maxResults=$max&startAt=".($onPage*$page).'&groupname=' . $name);
+            $ret = $this->exec($this->uri."?expand=users&maxResults=$max&startAt=".($onPage*$page).'&groupname=' . $this->filterName($name,'+'));
 //            $ret = $this->exec($this->uri.'?groupname=' . $name);
             $ret = json_decode($ret);
-            print_r($ret);
+//            print_r($ret);
             $max = $ret->users->size;
             
             if ($group === null) {
@@ -120,7 +120,7 @@ class AccountService extends \Jira\Api\Client
     public function createGroup($name)
     {
         $json = json_encode([
-            'name' => $name,
+            'name' => $this->filterName($name),
         ]);
         $ret = $this->exec($this->uri, $json, 'POST');
 //        $ret = $this->exec($this->uri.'/member?groupname=' . $name);

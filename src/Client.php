@@ -85,6 +85,11 @@ class Client
     }
     static public function getMapper() { return self::$jMapper; }
     
+    public function filterName($name, $spaceEncode = false) {
+        if ($spaceEncode) $name = str_replace(' ', $spaceEncode, $name);
+        return ( iconv('utf-8', 'us-ascii//TRANSLIT', $name));
+    }
+    
     /**
      * Convert log level
      *
