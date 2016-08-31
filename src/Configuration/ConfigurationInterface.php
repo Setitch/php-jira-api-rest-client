@@ -68,4 +68,9 @@ interface ConfigurationInterface
     * @return \JsonMapper\Interface
     */
     public function getMapper();
+    
+    /**
+    * @return Boolean
+    */
+    public function getUtf8Support();
 }

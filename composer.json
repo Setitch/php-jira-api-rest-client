@@ -1,6 +1,6 @@
 {
     "name": "setitch/php-jira-api-rest-client",
-    "description": "Client for Jira REST Api written in PHP.",
+    "description": "Client for Jira REST Api written in PHP. Now with partial support of UTF8 setting of JIRA",
     "type": "library",
     "keywords": ["jira", "jira-php", "jira-rest", "jira-api", "php", "library", "client"],
 	"support": {

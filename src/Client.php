@@ -17,6 +17,8 @@ use Jira\Api\Exception as Exception;
  */
 class Client
 {
+    static protected $isJIRAUtf8 = true;
+
     static protected $jMapper = null;
     /**
      * Json Mapper
@@ -70,7 +72,7 @@ class Client
         if ($this->configuration->getMapper())
             $this->json_mapper = $this->configuration->getMapper();
         else
-            $this->json_mapper = new \Jira\Api\Mapper();
+            $this->json_mapper = new \Jira\Mapper();
 
         self::$jMapper = $this->json_mapper;
         // create logger
@@ -80,14 +82,27 @@ class Client
             3,
             $this->convertLogLevel($configuration->getJiraLogLevel())
         ));
+        
+        self::$isJIRAUtf8 = $configuration -> getUtf8Support();
 
         $this->http_response = 200;
     }
     static public function getMapper() { return self::$jMapper; }
     
     public function filterName($name, $spaceEncode = false) {
+        
+        
         if ($spaceEncode) $name = str_replace(' ', $spaceEncode, $name);
-        return ( iconv('utf-8', 'us-ascii//TRANSLIT', $name));
+        $t = $name;
+        try {
+//            $t = iconv('CP1250', 'utf-8//TRANSLIT//IGNORE', $t);
+//            $t = iconv('CP-1250', 'utf-8//TRANSLIT', $t);
+            $name = $t;
+        } catch (\Exception $e) {echo $e->getMessage();}
+        return $name;
+//        return urlencode( $name );
+        return ( iconv('utf-8', 'us-ascii//TRANSLIT', $name) );
+//        return ( iconv('utf-8', 'us-ascii//TRANSLIT', $name) );
     }
     
     /**
@@ -149,10 +164,12 @@ class Client
         $this->log->addDebug("Curl [".($custom_request ? $custom_request : 'GET')."] $url JsonData=" . $post_data);
 //        echo "Curl [".($custom_request ? $custom_request : 'GET')."] $url JsonData=" . $post_data, "\n";
         $ch = curl_init();
+        curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
+
         curl_setopt($ch, CURLOPT_TIMEOUT, 45); // Timeout na 30 sekund max
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15); // Timeout dla oczekiwania na połączenie na 30 sekund max
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_URL, utf8_encode($url));
         // post_data
         if (!is_null($post_data)) {
             // PUT REQUEST

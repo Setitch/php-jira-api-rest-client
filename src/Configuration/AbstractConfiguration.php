@@ -65,6 +65,8 @@ abstract class AbstractConfiguration implements \Jira\Api\Configuration\Configur
     protected $curlOptVerbose;
 
     protected $mapper = null;
+    
+    protected $utf8support = false;
 
     /**
      * @return string
@@ -133,5 +135,10 @@ abstract class AbstractConfiguration implements \Jira\Api\Configuration\Configur
     public function getMapper()
     {
         return $this->mapper;
+    }
+    
+    public function getUtf8Support()
+    {
+        return $this->utf8support;
     }
 }
