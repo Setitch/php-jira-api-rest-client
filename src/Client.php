@@ -72,7 +72,7 @@ class Client
         if ($this->configuration->getMapper())
             $this->json_mapper = $this->configuration->getMapper();
         else
-            $this->json_mapper = new \Jira\Mapper();
+            $this->json_mapper = new \Jira\Api\Mapper();
 
         self::$jMapper = $this->json_mapper;
         // create logger
@@ -208,6 +208,7 @@ class Client
             $url .= '&startAt='.$post_data->startAt;
             $url .= '&maxResults='.$post_data->maxResults;
             $url .= '&expand='.$post_data->expand;
+if (isset($post_data->fields) && !empty($post_data->fields)) $url .= '&fields='.$post_data -> fields;
             $post_data = null;
             curl_setopt($ch, CURLOPT_POST, false);
             curl_setopt($ch, CURLOPT_URL, $url);
