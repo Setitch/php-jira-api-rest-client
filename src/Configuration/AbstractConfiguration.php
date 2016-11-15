@@ -69,6 +69,21 @@ abstract class AbstractConfiguration implements \Jira\Api\Configuration\Configur
     protected $utf8support = false;
 
     /**
+    * Name visible in userAgent (additional data apart from Library version).
+    * 
+    * @var string
+    */
+    protected $userAgent = '';
+
+    /**
+     * @return string
+     */
+    public function getUserAgent()
+    {
+        return $this->userAgent;
+    }
+    
+    /**
      * @return string
      */
     public function getJiraHost()

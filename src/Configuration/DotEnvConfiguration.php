@@ -34,6 +34,7 @@ class DotEnvConfiguration extends AbstractConfiguration
         $this->curlOptSslVerifyHost = $this->env('CURLOPT_SSL_VERIFYHOST', false);
         $this->curlOptSslVerifyPeer = $this->env('CURLOPT_SSL_VERIFYPEER', false);
         $this->curlOptVerbose = $this->env('CURLOPT_VERBOSE', false);
+        $this->userAgent = $this->env('USER_AGENT', '');
     }
 
     /**

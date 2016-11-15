@@ -17,6 +17,8 @@ use Jira\Api\Exception as Exception;
  */
 class Client
 {
+    static protected $UserAgent = 'Seti\'s JiraApi Rest Client v1.5.*';
+    
     static protected $isJIRAUtf8 = true;
 
     static protected $jMapper = null;
@@ -191,6 +193,7 @@ class Client
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, self::$UserAgent . ($this->getConfiguration()->getUserAgent() ? ' []' : ''));
         curl_setopt($ch, CURLOPT_HTTPHEADER,
             array('Accept: */*', 'Content-Type: application/json'));
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
@@ -208,7 +211,7 @@ class Client
             $url .= '&startAt='.$post_data->startAt;
             $url .= '&maxResults='.$post_data->maxResults;
             $url .= '&expand='.$post_data->expand;
-if (isset($post_data->fields) && !empty($post_data->fields)) $url .= '&fields='.$post_data -> fields;
+if (isset($post_data->fields) && !empty($post_data->fields)) $url .= '&fields='.(is_array($post_data -> fields) ? implode(',', $post_data->fields) : $post_data->fields);
             $post_data = null;
             curl_setopt($ch, CURLOPT_POST, false);
             curl_setopt($ch, CURLOPT_URL, $url);
