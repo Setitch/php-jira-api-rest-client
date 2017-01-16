@@ -246,7 +246,7 @@ class IssueField implements \JsonSerializable
     /** @var object */
     public $watches;
 
-    /** @var object */
+    /** @var Worklogs */
     public $worklog;
 
     /** @var Reporter */

@@ -67,7 +67,7 @@ abstract class AbstractConfiguration implements \Jira\Api\Configuration\Configur
     protected $mapper = null;
     
     protected $utf8support = false;
-
+    
     /**
     * Name visible in userAgent (additional data apart from Library version).
     * 

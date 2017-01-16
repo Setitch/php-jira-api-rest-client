@@ -229,11 +229,11 @@ class IssueService extends \Jira\Api\Client
             'jql' => $jql,
             'startAt' => $startAt,
             'maxResults' => $maxResults,
-            'fields' => $fields,
+//            'fields' => $fields,
+            'fields' => implode(',',$fields),
             'expand' => implode(',',$expand),
         ));
         $ret = $this->exec("search", $data, 'GET');
-
         $result = $this->json_mapper->map(
             json_decode($ret), new IssueSearchResult()
         );

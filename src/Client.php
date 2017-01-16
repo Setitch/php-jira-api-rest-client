@@ -164,7 +164,7 @@ class Client
         
         $url = $this->createUrlByContext($context);
         $this->log->addDebug("Curl [".($custom_request ? $custom_request : 'GET')."] $url JsonData=" . $post_data);
-//        echo "Curl [".($custom_request ? $custom_request : 'GET')."] $url JsonData=" . $post_data, "\n";
+//                        echo "Curl [".($custom_request ? $custom_request : 'GET')."] $url JsonData=" . $post_data, "\n";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
 
@@ -193,7 +193,7 @@ class Client
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, self::$UserAgent . ($this->getConfiguration()->getUserAgent() ? ' []' : ''));
+        curl_setopt($ch, CURLOPT_USERAGENT, self::$UserAgent . ($this->getConfiguration()->getUserAgent() ? ' ['.$this->getConfiguration()->getUserAgent().']' : ''));
         curl_setopt($ch, CURLOPT_HTTPHEADER,
             array('Accept: */*', 'Content-Type: application/json'));
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
@@ -215,6 +215,7 @@ if (isset($post_data->fields) && !empty($post_data->fields)) $url .= '&fields='.
             $post_data = null;
             curl_setopt($ch, CURLOPT_POST, false);
             curl_setopt($ch, CURLOPT_URL, $url);
+//            echo $url;
         }
         
         $response = $this->curlExec($ch, $tries);
@@ -291,6 +292,7 @@ if (isset($post_data->fields) && !empty($post_data->fields)) $url .= '&fields='.
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $this->getConfiguration()->isCurlOptSslVerifyHost());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, self::$UserAgent . ($this->getConfiguration()->getUserAgent() ? ' []' : ''));
         curl_setopt($ch, CURLOPT_HTTPHEADER,
             array(
                 'Accept: */*',

@@ -105,7 +105,7 @@ class Mapper extends \JsonMapper
             }
 
             list($hasProperty, $accessor, $type)
-                = $this->arInspectedClasses[$strClassName][$key];
+                = $this->arInspectedClasses[$strClassName][$key];  
 
             if (!$hasProperty) {
                 if ($this->bExceptionOnUndefinedProperty) {

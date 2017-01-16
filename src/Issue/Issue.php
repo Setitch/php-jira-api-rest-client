@@ -30,4 +30,15 @@ class Issue implements \JsonSerializable
     {
         return array_filter(get_object_vars($this));
     }
+
+    /** @var Changelogs */
+    public $changelog;
+
+//    public function setChangelog($cl)
+//    {
+//        if (is_null($this->changelog)) {
+//            $this->changelog = new \Jira\Api\Issue\Changelog($cl);
+//        }
+//        
+//    }
 }
