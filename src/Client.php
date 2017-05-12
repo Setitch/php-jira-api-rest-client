@@ -387,6 +387,13 @@ end:
     protected function createUrlByContext($context)
     {
         $host = $this->getConfiguration()->getJiraHost();
+        
+        if (substr($context,0,1) === '*') {
+            $context = substr($context,1);
+            
+            return $host . '/rest' . '/' . preg_replace('/\//', '', $context, 1);
+        }
+        
         return $host . $this->api_uri . '/' . preg_replace('/\//', '', $context, 1);
     }
     /**
