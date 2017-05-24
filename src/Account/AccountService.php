@@ -3,6 +3,7 @@
 namespace Jira\Api\Account;
 
 use \Jira\Api\Account\Group;
+use \Jira\Api\Account\GroupList;
 
 class AccountService extends \Jira\Api\Client
 {
@@ -85,6 +86,38 @@ class AccountService extends \Jira\Api\Client
         return $group;
     }
     
+    public function findGroups($query = '')
+    {
+        if (self::$isJIRAUtf8)
+            $ret = $this->exec($this->uri.'s/picker?maxResults=1&'.($query?('query=' . str_replace(' ', '+', urlencode($query)).'&useUnicode=true&characterEncoding=unicode'):''));
+        else
+            $ret = $this->exec($this->uri.'s/picker?maxResults=1&'.($query?('query=' . str_replace(' ', '+', urlencode($query))):''));// .'&useUnicode=false&characterEncoding=unicode');
+//        $ret = $this->exec($this->uri.'?groupname=' . ($this->filterName($name,'+')) .'&useUnicode=true&characterEncoding=UTF8');
+//        $ret = $this->exec($this->uri, $json, 'POST');
+//        $ret = $this->exec($this->uri.'/member?groupname=' . $name);
+//var_dump($ret);
+
+        $groups = $this->json_mapper->map(
+             json_decode($ret), new GroupList()
+        );
+
+        if (self::$isJIRAUtf8)
+            $ret = $this->exec($this->uri.'s/picker?maxResults='.$groups->total.'&'.($query?('query=' . str_replace(' ', '+', urlencode($query)).'&useUnicode=true&characterEncoding=unicode'):''));
+        else
+            $ret = $this->exec($this->uri.'s/picker?maxResults='.$groups->total.'&'.($query?('query=' . str_replace(' ', '+', urlencode($query))):''));// .'&useUnicode=false&characterEncoding=unicode');
+//        $ret = $this->exec($this->uri.'?groupname=' . ($this->filterName($name,'+')) .'&useUnicode=true&characterEncoding=UTF8');
+//        $ret = $this->exec($this->uri, $json, 'POST');
+//        $ret = $this->exec($this->uri.'/member?groupname=' . $name);
+//var_dump($ret);
+
+        $groups = $this->json_mapper->map(
+             json_decode($ret), new GroupList()
+        );
+
+
+        return $groups;        
+    }
+    
     /**
      * @return \Jira\Api\Account\Group[]
      */
@@ -135,7 +168,7 @@ class AccountService extends \Jira\Api\Client
         $json = json_encode([
             'name' => $this->filterName($name),
         ]);
-        var_dump($json);
+//        var_dump($json);
         try {
             $ret = $this->exec($this->uri, $json, 'POST');
         } catch (\Exception $e) {
@@ -150,5 +183,23 @@ class AccountService extends \Jira\Api\Client
         );
 
         return $group;
+    }
+    
+    public function removeGroup($name)
+    {
+        $json = json_encode([
+            'groupname' => $this->filterName($name),
+            'name' => $this->filterName($name),
+            'group' => $this->filterName($name),
+        ]);
+        $ret = false;
+        try {
+            $ret = $this->exec($this->uri . '?groupname='.str_replace(' ', '+', urlencode($name)).'&useUnicode=true&characterEncoding=unicode', null, 'DELETE');
+        } catch (\Exception $e) {
+            return false;
+//            var_dump($e->getMessage());
+        }
+        
+        return $ret;
     }
 }

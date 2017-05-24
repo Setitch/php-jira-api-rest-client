@@ -181,6 +181,7 @@ class Client
             }
             if (!is_null($custom_request) && $custom_request == 'DELETE') {
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
             } else {
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
@@ -195,9 +196,11 @@ class Client
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_USERAGENT, self::$UserAgent . ($this->getConfiguration()->getUserAgent() ? ' ['.$this->getConfiguration()->getUserAgent().']' : ''));
         curl_setopt($ch, CURLOPT_HTTPHEADER,
-            array('Accept: */*', 'Content-Type: application/json'));
+            array('Accept: */*', 'Content-Type: application/json')
+        );
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
         $this->log->addDebug("Curl [".($custom_request ? $custom_request : 'GET')."] exec=".$url);
+//        echo "Curl [".($custom_request ? $custom_request : 'GET')."] exec=".$url;
 
         if ($context === 'issue' && strtolower($custom_request) === 'delete') {
             $url .= '/'.$post_data;
