@@ -276,6 +276,9 @@ class IssueField implements \JsonSerializable
     /** @var array */
     public $issuelinks;
 
+    /** @var \Jira\Api\Issue\Issue */
+    public $parent;
+    
     /** @var array */
     public $subtasks;
 
