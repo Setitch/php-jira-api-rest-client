@@ -27,7 +27,7 @@ class IssueField implements \JsonSerializable
         if ($updateIssue != true) {
             $this->project = new \Jira\Api\Project\Project();
 
-            $this->assignee = new \Jira\Api\Issue\Reporter();
+            $this->assignee = new \Jira\Api\Issue\Assignee();
             $this->priority = new \Jira\Api\Issue\Priority();
             $this->versions = array();
 
@@ -98,7 +98,7 @@ class IssueField implements \JsonSerializable
     public function setAssigneeName($name)
     {
         if (is_null($this->assignee)) {
-            $this->assignee = new \Jira\Api\Issue\Reporter();
+            $this->assignee = new \Jira\Api\Issue\Assignee();
         }
 
         $this->assignee->name = $name;
@@ -249,7 +249,7 @@ class IssueField implements \JsonSerializable
     /** @var Worklogs */
     public $worklog;
 
-    /** @var Reporter */
+    /** @var Assignee */
     public $assignee;
 
     /** @var \Jira\Api\Issue\Version[] */

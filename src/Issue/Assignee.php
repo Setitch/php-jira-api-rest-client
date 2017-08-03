@@ -2,7 +2,7 @@
 
 namespace Jira\Api\Issue;
 
-class Reporter implements \JsonSerializable
+class Assignee implements \JsonSerializable
 {
     /* @var string */
     public $self;
