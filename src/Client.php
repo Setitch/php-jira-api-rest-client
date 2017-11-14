@@ -260,7 +260,8 @@ class Client
                 throw new Exception(
                     'CURL HTTP Request Failed: Status Code : '
                     .$this->http_response.', URL:'.$url
-                    ."\nError Message : ".$response, $this->http_response
+                    ."\nError Message : ".$response,
+                    $this->http_response
                 );
             }
         }

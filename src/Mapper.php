@@ -58,8 +58,8 @@ class Mapper extends \JsonMapper
         $object,
         $accessor,
         $value
-    ) 
-    {
+    ) {
+    
         if ($accessor instanceof \ReflectionProperty) {
             $object->{$accessor->getName()} = $value;
         } else {

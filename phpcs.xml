@@ -15,7 +15,7 @@
     <config name="testVersion" value="7.0-7.1" />
 
 
-    <rule ref="ZEND" />
+    <rule ref="PSR2" />
 
     <file>./src</file>
 </ruleset>

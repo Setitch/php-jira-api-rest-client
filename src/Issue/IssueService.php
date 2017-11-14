@@ -71,7 +71,8 @@ class IssueService extends \Jira\Api\Client
         $resArr = array();
         foreach ($results as $ret) {
             array_push(
-                $resArr, $this->json_mapper->mapArray(
+                $resArr,
+                $this->json_mapper->mapArray(
                     json_decode($ret),
                     new \ArrayObject(),
                     '\Jira\Api\Issue\Attachment'
