@@ -100,7 +100,7 @@ class IssueSearchResult
      * @param Issue[] $issues
      */
     public function setIssues($issues)
-    {                                 
+    {
         $this->issues = $issues;
     }
 

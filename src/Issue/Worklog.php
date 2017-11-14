@@ -20,10 +20,10 @@ class Worklog implements \JsonSerializable
         return array_filter(get_object_vars($this));
     }
     
-    public function __construct($obj) {
-        if (is_array($obj)) {}
-        elseif (is_object($obj))
-        {
+    public function __construct($obj)
+    {
+        if (is_array($obj)) {
+        } elseif (is_object($obj)) {
             $this->id = $obj->id;
             $this->self = $obj->self;
             $this->author = $obj->author;
@@ -34,8 +34,9 @@ class Worklog implements \JsonSerializable
             $this->started = $obj->started;
             $this->timeSpent = $obj->timeSpent;
             $this->timeSpentSeconds = $obj->timeSpentSeconds;
-            if (isset($obj->issueid))
+            if (isset($obj->issueid)) {
                 $this->issueid = $obj -> issueid;
+            }
         }
     }
 }

@@ -70,16 +70,22 @@ class Changelogs implements \JsonSerializable
         foreach ($wl as $w)
             $this->worklogs[] = new \Jira\Api\Issue\Worklog($w);
     }
-*/    
-    public function addChangelog($wl) { $this->addChangelogs($wl); }
+*/
+    public function addChangelog($wl)
+    {
+        $this->addChangelogs($wl);
+    }
     public function addChangelogs($wl)
     {
         if (is_null($this->histories)) {
             $this->histories = [];
         }
-        if (!is_array($wl)) $wl = [$wl];
+        if (!is_array($wl)) {
+            $wl = [$wl];
+        }
         
-        foreach ($wl as $w)
+        foreach ($wl as $w) {
             $this->histories[] = new \Jira\Api\Issue\Changelog($w);
+        }
     }
 }

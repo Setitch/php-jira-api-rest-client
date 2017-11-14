@@ -10,8 +10,11 @@ class CustomFieldValue implements \JsonSerializable
 {
     protected $values = [];
     
-    public function __construct($value = null) {
-        if ($value) $this->__set('value', $value);
+    public function __construct($value = null)
+    {
+        if ($value) {
+            $this->__set('value', $value);
+        }
     }
     
     public function __set($name, $value)
@@ -19,7 +22,8 @@ class CustomFieldValue implements \JsonSerializable
         $this->values[$name] = $value;
     }
 
-    public function __get($name) {
+    public function __get($name)
+    {
         $ret = isset($this->values[$name]) ? $this->values[$name] : [];
         
         return $ret;
@@ -28,8 +32,7 @@ class CustomFieldValue implements \JsonSerializable
     public function jsonSerialize()
     {
         $ret = array_filter(get_object_vars($this));
-        if (isset($ret['values']))
-        {
+        if (isset($ret['values'])) {
             foreach ($ret['values'] as $key => $val) {
                 $ret[$key] = $val;
             }
@@ -37,5 +40,4 @@ class CustomFieldValue implements \JsonSerializable
         }
         return $ret;
     }
-
 }

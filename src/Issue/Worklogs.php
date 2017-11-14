@@ -70,16 +70,22 @@ class Worklogs implements \JsonSerializable
         foreach ($wl as $w)
             $this->worklogs[] = new \Jira\Api\Issue\Worklog($w);
     }
-*/    
-    public function addWorklog($wl) { $this->addWorklogs($wl); }
+*/
+    public function addWorklog($wl)
+    {
+        $this->addWorklogs($wl);
+    }
     public function addWorklogs($wl)
     {
         if (is_null($this->worklogs)) {
             $this->worklogs = [];
         }
-        if (!is_array($wl)) $wl = [$wl];
+        if (!is_array($wl)) {
+            $wl = [$wl];
+        }
         
-        foreach ($wl as $w)
+        foreach ($wl as $w) {
             $this->worklogs[] = new \Jira\Api\Issue\Worklog($w);
+        }
     }
 }

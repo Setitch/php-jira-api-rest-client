@@ -14,11 +14,13 @@ class ReflectionContainer
         $this->field = $field;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->ref->getName();
     }
 
-    public function getField() {
+    public function getField()
+    {
         return $this->field;
     }
 }
@@ -32,8 +34,7 @@ class Mapper extends \JsonMapper
     {
         $ret = parent::inspectProperty($rc, $name);
         if ($ret[0] === false) {
-            if ($rc->hasMethod('__set'))
-            {
+            if ($rc->hasMethod('__set')) {
                 $a = $rc->getMethod('__set');
                 return [true, new ReflectionContainer($a, $name), 'mixed'];
             }
@@ -54,17 +55,19 @@ class Mapper extends \JsonMapper
      * @return void
      */
     protected function setProperty(
-        $object, $accessor, $value
-    ) {
+        $object,
+        $accessor,
+        $value
+    ) 
+    {
         if ($accessor instanceof \ReflectionProperty) {
             $object->{$accessor->getName()} = $value;
         } else {
-            if ($accessor instanceof ReflectionContainer)
-            {
+            if ($accessor instanceof ReflectionContainer) {
                 $object->{$accessor->getName()}($accessor->getField(), $value);
-            }
-            else
+            } else {
                 $object->{$accessor->getName()}($value);
+            }
         }
     }
 
@@ -105,7 +108,7 @@ class Mapper extends \JsonMapper
             }
 
             list($hasProperty, $accessor, $type)
-                = $this->arInspectedClasses[$strClassName][$key];  
+                = $this->arInspectedClasses[$strClassName][$key];
 
             if (!$hasProperty) {
                 if ($this->bExceptionOnUndefinedProperty) {

@@ -5,20 +5,24 @@ namespace Jira\Api\Issue;
 class IssueField implements \JsonSerializable
 {
     protected $otherVals = [];
-    public function __set($name, $val) {
+    public function __set($name, $val)
+    {
         $this->otherVals[$name] = $val;
     }
 
-    public function __get($name) {
+    public function __get($name)
+    {
         return isset($this->otherVals[$name]) ? $this->otherVals[$name] : null;
     }
     
-    public function __isset($name) {
+    public function __isset($name)
+    {
         return isset($this->otherVals[$name]);
     }
 
     
-    public function getOtherVals() {
+    public function getOtherVals()
+    {
         return $this->otherVals;
     }
 
@@ -150,10 +154,13 @@ class IssueField implements \JsonSerializable
         return $this;
     }
     
-    public function getComments() {
-        if (is_null($this->comment)) return [];
-        else
+    public function getComments()
+    {
+        if (is_null($this->comment)) {
+            return [];
+        } else {
             return $this->comment->comments;
+        }
     }
 
     public function addLabel($label)
@@ -296,5 +303,4 @@ class IssueField implements \JsonSerializable
 
     /** @var object */
     public $timeoriginalestimate;
-
 }

@@ -25,10 +25,13 @@ class Changelog implements \JsonSerializable
         if (is_null($this->histories)) {
             $this->histories = [];
         }
-        if (!is_array($cl)) $cl = [$cl];
+        if (!is_array($cl)) {
+            $cl = [$cl];
+        }
         
-        foreach ($cl as $c)
+        foreach ($cl as $c) {
             $this->histories[] = new \Jira\Api\Issue\Changelog($c);
+        }
     }
     
 //    public function 

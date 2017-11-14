@@ -30,47 +30,47 @@ class Project
       *
       * @var string
       */
-     public $key;
+    public $key;
 
      /**
       * Project name.
       *
       * @var string
       */
-     public $name;
+    public $name;
 
      /**
       * avatar URL.
       *
       * @var array
       */
-     public $avatarUrls;
+    public $avatarUrls;
 
      /**
       * Project category.
       *
       * @var array
       */
-     public $projectCategory;
+    public $projectCategory;
 
      /* @var string */
-     public $description;
+    public $description;
 
      /* Project leader info @var array */
-     public $lead;
+    public $lead;
 
      /* @var ComponentList[\Jira\Api\Project\Component] */
-     public $components;
+    public $components;
 
      /* @var IssueTypeList[\Jira\Api\Issue\IssueType] */
-     public $issueTypes;
+    public $issueTypes;
 
      /* @var string */
-     public $assigneeType;
+    public $assigneeType;
 
      /* @var array */
-     public $versions;
+    public $versions;
 
       /* @var array */
-     public $roles;
+    public $roles;
 }

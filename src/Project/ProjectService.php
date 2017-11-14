@@ -16,7 +16,9 @@ class ProjectService extends \Jira\Api\Client
         $ret = $this->exec($this->uri, null);
 
         $prjs = $this->json_mapper->mapArray(
-             json_decode($ret, false), new \ArrayObject(), '\Jira\Api\Project\Project'
+            json_decode($ret, false),
+            new \ArrayObject(),
+            '\Jira\Api\Project\Project'
         );
 
         return $prjs;
@@ -38,10 +40,10 @@ class ProjectService extends \Jira\Api\Client
         $this->log->addInfo('Result='.$ret);
 
         $prj = $this->json_mapper->map(
-             json_decode($ret), new Project()
+            json_decode($ret),
+            new Project()
         );
 
         return $prj;
     }
 }
-

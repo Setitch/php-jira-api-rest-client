@@ -1,7 +1,6 @@
 <?php
 namespace Jira\Api\Account;
 
-
 class Users
 {
     /* @var int */
@@ -9,11 +8,15 @@ class Users
     /* @var UserList[\Jira\Api\Account\User] */
     public $items;
     
-    public function setItems($items) {
-        if (!is_array($this->items)) $this->items = [];
+    public function setItems($items)
+    {
+        if (!is_array($this->items)) {
+            $this->items = [];
+        }
         
-        foreach ($items as $item)
+        foreach ($items as $item) {
             $this->items[] = new \Jira\Api\Account\User($item);
+        }
     }
     
     public function __construct($obj)

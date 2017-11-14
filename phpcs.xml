@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="Coding Standard Config">
+    <description>standard config file</description>
+
+    <arg value="n" />
+    <arg name="report" value="full" />
+    <arg name="encoding" value="UTF-8" />
+    <arg name="extensions" value="php" />
+
+    <!-- Run against the PHPCompatibility ruleset -->
+    <rule ref="PHPCompatibility">
+        <!-- this is library, anyone using it should fix that, so excluding this -->
+        <exclude name="PHPCompatibility.PHP.DefaultTimezoneRequired"/>
+    </rule>
+    <config name="testVersion" value="7.0-7.1" />
+
+
+    <rule ref="ZEND" />
+
+    <file>./src</file>
+</ruleset>

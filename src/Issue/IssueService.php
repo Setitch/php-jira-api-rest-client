@@ -18,7 +18,8 @@ class IssueService extends \Jira\Api\Client
         $this->log->addInfo("Result=\n".$ret);
 
         $issue = $this->json_mapper->map(
-             json_decode($ret), new Issue()
+            json_decode($ret),
+            new Issue()
         );
 
         return $issue;
@@ -45,7 +46,8 @@ class IssueService extends \Jira\Api\Client
         $ret = $this->exec($this->uri, $data, 'POST');
 
         $issue = $this->json_mapper->map(
-             json_decode($ret), new Issue()
+            json_decode($ret),
+            new Issue()
         );
         
 
@@ -68,8 +70,11 @@ class IssueService extends \Jira\Api\Client
 
         $resArr = array();
         foreach ($results as $ret) {
-            array_push($resArr, $this->json_mapper->mapArray(
-               json_decode($ret), new \ArrayObject(), '\Jira\Api\Issue\Attachment'
+            array_push(
+                $resArr, $this->json_mapper->mapArray(
+                    json_decode($ret),
+                    new \ArrayObject(),
+                    '\Jira\Api\Issue\Attachment'
                 )
             );
         }
@@ -139,7 +144,8 @@ class IssueService extends \Jira\Api\Client
 
         $this->log->addDebug('add comment result='.var_export($ret, true));
         $comment = $this->json_mapper->map(
-           json_decode($ret), new Comment()
+            json_decode($ret),
+            new Comment()
         );
 
         return $comment;
@@ -161,7 +167,9 @@ class IssueService extends \Jira\Api\Client
         $data = json_encode(json_decode($ret)->transitions);
 
         $transitions = $this->json_mapper->mapArray(
-           json_decode($data), new \ArrayObject(), '\Jira\Api\Issue\Transition'
+            json_decode($data),
+            new \ArrayObject(),
+            '\Jira\Api\Issue\Transition'
         );
 
         return $transitions;
@@ -223,19 +231,22 @@ class IssueService extends \Jira\Api\Client
      *
      * @return IssueSearchResult
      */
-    public function search($jql, $startAt=0, $maxResults=15, $fields=[], $expand = [])
+    public function search($jql, $startAt = 0, $maxResults = 15, $fields = [], $expand = [])
     {
-        $data = json_encode(array(
+        $data = json_encode(
+            array(
             'jql' => $jql,
             'startAt' => $startAt,
             'maxResults' => $maxResults,
-//            'fields' => $fields,
-            'fields' => implode(',',$fields),
-            'expand' => implode(',',$expand),
-        ));
+            //            'fields' => $fields,
+            'fields' => implode(',', $fields),
+            'expand' => implode(',', $expand),
+            )
+        );
         $ret = $this->exec("search", $data, 'GET');
         $result = $this->json_mapper->map(
-            json_decode($ret), new IssueSearchResult()
+            json_decode($ret),
+            new IssueSearchResult()
         );
 
         return $result;
@@ -253,7 +264,8 @@ class IssueService extends \Jira\Api\Client
         $this->log->addDebug("getTimeTracking res=$ret\n");
 
         $issue = $this->json_mapper->map(
-             json_decode($ret), new Issue()
+            json_decode($ret),
+            new Issue()
         );
 
         return $issue->fields->timeTracking;
@@ -306,4 +318,3 @@ class IssueService extends \Jira\Api\Client
         return $ret;
     }
 }
-

@@ -10,15 +10,18 @@ class IssueFieldWithCustoms extends \Jira\Api\Issue\IssueField
 {
     public function setCustom($name, $value)
     {
-        if (is_numeric($name))
+        if (is_numeric($name)) {
             $this->otherVals['customfield_'.$name] = $value;
+        }
     }
 
-    public function __get($name) {
-        if (is_numeric($name))
+    public function __get($name)
+    {
+        if (is_numeric($name)) {
             $ret = isset($this->otherVals['customfield_'.$name]) ? $this->otherVals['customfield_'.$name] : [];
-        else
+        } else {
             $ret = isset($this->otherVals[$name]) ? $this->otherVals[$name] : [];
+        }
         return $ret;
     }
 
@@ -26,8 +29,7 @@ class IssueFieldWithCustoms extends \Jira\Api\Issue\IssueField
     {
 
         $ret = array_filter(get_object_vars($this));
-        if (isset($ret['otherVals']))
-        {
+        if (isset($ret['otherVals'])) {
             foreach ($ret['otherVals'] as $key => $val) {
                 $ret[$key] = $val;
             }
@@ -35,5 +37,4 @@ class IssueFieldWithCustoms extends \Jira\Api\Issue\IssueField
         }
         return $ret;
     }
-
 }

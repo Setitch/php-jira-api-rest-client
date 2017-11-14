@@ -21,10 +21,10 @@ class ChangelogItem implements \JsonSerializable
         return array_filter(get_object_vars($this));
     }
     
-    public function __construct($obj) {
-        if (is_array($obj)) {}
-        elseif (is_object($obj))
-        {
+    public function __construct($obj)
+    {
+        if (is_array($obj)) {
+        } elseif (is_object($obj)) {
             var_dump($obj);
             $this->field = $obj->field;
             $this->fieldType = $obj->fieldType;

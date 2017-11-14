@@ -1,0 +1,14 @@
+# Configuration for PHP Static Analysis
+# https://github.com/phpstan/phpstan
+parameters:
+    bootstrap: %rootDir%/../../../vendor/autoload.php
+
+    fileExtensions:
+        - php
+
+    # Do not treat unmatched patterns as errors
+    reportUnmatchedIgnoredErrors: false
+
+    universalObjectCratesClasses: {}
+
+    ignoreErrors: {}

@@ -70,7 +70,7 @@ abstract class AbstractConfiguration implements \Jira\Api\Configuration\Configur
     
     /**
     * Name visible in userAgent (additional data apart from Library version).
-    * 
+    *
     * @var string
     */
     protected $userAgent = '';

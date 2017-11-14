@@ -33,22 +33,22 @@ class TransitionTo
 class Transition implements \JsonSerializable
 {
     /* @var string */
-   public $id;
+    public $id;
 
    /* @var string */
-   public $name;
+    public $name;
 
    /* @var TransitionTo */
-   public $to;
+    public $to;
 
    /* @var array */
-   public $fields;
+    public $fields;
 
     /* @var IssueField */
-   public $issueFields;
+    public $issueFields;
 
    /* @var array */
-   public $transition;
+    public $transition;
 
     public $update;
 

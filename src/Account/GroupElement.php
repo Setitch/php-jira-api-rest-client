@@ -1,7 +1,6 @@
 <?php
 namespace Jira\Api\Account;
 
-
 class GroupElement //implements \JsonSerializable
 {
     /** @var string */

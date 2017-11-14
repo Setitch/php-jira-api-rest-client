@@ -1,7 +1,6 @@
 <?php
 namespace Jira\Api;
 
-
 use Jira\Api\Configuration\ConfigurationInterface;
 use Jira\Api\Configuration\DotEnvConfiguration;
 
@@ -10,6 +9,7 @@ use Monolog\Logger as Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Jira\Api\Exception as Exception;
+
 /**
  * Interact jira server with REST API.
  * @author Artur (Seti) Łabudziński
@@ -71,36 +71,47 @@ class Client
         }
         $this->configuration = $configuration;
 
-        if ($this->configuration->getMapper())
+        if ($this->configuration->getMapper()) {
             $this->json_mapper = $this->configuration->getMapper();
-        else
+        } else {
             $this->json_mapper = new \Jira\Api\Mapper();
+        }
 
         self::$jMapper = $this->json_mapper;
         // create logger
         $this->log = new Logger('JiraClient');
-        $this->log->pushHandler(new RotatingFileHandler(
-            $configuration->getJiraLogFile(),
-            3,
-            $this->convertLogLevel($configuration->getJiraLogLevel())
-        ));
+        $this->log->pushHandler(
+            new RotatingFileHandler(
+                $configuration->getJiraLogFile(),
+                3,
+                $this->convertLogLevel($configuration->getJiraLogLevel())
+            )
+        );
         
         self::$isJIRAUtf8 = $configuration -> getUtf8Support();
 
         $this->http_response = 200;
     }
-    static public function getMapper() { return self::$jMapper; }
+    public static function getMapper()
+    {
+        return self::$jMapper;
+    }
     
-    public function filterName($name, $spaceEncode = false) {
+    public function filterName($name, $spaceEncode = false)
+    {
         
         
-        if ($spaceEncode) $name = str_replace(' ', $spaceEncode, $name);
+        if ($spaceEncode) {
+            $name = str_replace(' ', $spaceEncode, $name);
+        }
         $t = $name;
         try {
 //            $t = iconv('CP1250', 'utf-8//TRANSLIT//IGNORE', $t);
 //            $t = iconv('CP-1250', 'utf-8//TRANSLIT', $t);
             $name = $t;
-        } catch (\Exception $e) {echo $e->getMessage();}
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
         return $name;
 //        return urlencode( $name );
         return ( iconv('utf-8', 'us-ascii//TRANSLIT', $name) );
@@ -160,7 +171,9 @@ class Client
      */
     public function exec($context, $post_data = null, $custom_request = null, $tries = 3)
     {
-        if (!is_int($tries)) $tries = 3;
+        if (!is_int($tries)) {
+            $tries = 3;
+        }
         
         $url = $this->createUrlByContext($context);
         $this->log->addDebug("Curl [".($custom_request ? $custom_request : 'GET')."] $url JsonData=" . $post_data);
@@ -186,8 +199,7 @@ class Client
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
             }
-        }
-        elseif (!is_null($custom_request) && $custom_request == 'DELETE') {
+        } elseif (!is_null($custom_request) && $custom_request == 'DELETE') {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         }
         $this->authorization($ch);
@@ -195,7 +207,9 @@ class Client
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_USERAGENT, self::$UserAgent . ($this->getConfiguration()->getUserAgent() ? ' ['.$this->getConfiguration()->getUserAgent().']' : ''));
-        curl_setopt($ch, CURLOPT_HTTPHEADER,
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
             array('Accept: */*', 'Content-Type: application/json')
         );
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
@@ -214,7 +228,9 @@ class Client
             $url .= '&startAt='.$post_data->startAt;
             $url .= '&maxResults='.$post_data->maxResults;
             $url .= '&expand='.$post_data->expand;
-if (isset($post_data->fields) && !empty($post_data->fields)) $url .= '&fields='.(is_array($post_data -> fields) ? implode(',', $post_data->fields) : $post_data->fields);
+            if (isset($post_data->fields) && !empty($post_data->fields)) {
+                $url .= '&fields='.(is_array($post_data -> fields) ? implode(',', $post_data->fields) : $post_data->fields);
+            }
             $post_data = null;
             curl_setopt($ch, CURLOPT_POST, false);
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -241,22 +257,27 @@ if (isset($post_data->fields) && !empty($post_data->fields)) $url .= '&fields='.
             curl_close($ch);
             // don't check 301, 302 because setting CURLOPT_FOLLOWLOCATION
             if ($this->http_response != 200 && $this->http_response != 201) {
-                throw new Exception('CURL HTTP Request Failed: Status Code : '
-                 .$this->http_response.', URL:'.$url
-                 ."\nError Message : ".$response, $this->http_response);
+                throw new Exception(
+                    'CURL HTTP Request Failed: Status Code : '
+                    .$this->http_response.', URL:'.$url
+                    ."\nError Message : ".$response, $this->http_response
+                );
             }
         }
         return $response;
     }
     
-    private function curlExec($ch, $tries = 3) {
+    private function curlExec($ch, $tries = 3)
+    {
         $ret = false;
         
         while ($tries > 0) {
             --$tries;
             
             $ret = curl_exec($ch);
-            if ($ret) break;
+            if ($ret) {
+                break;
+            }
         }
         
         return $ret;
@@ -280,15 +301,21 @@ if (isset($post_data->fields) && !empty($post_data->fields)) $url .= '&fields='.
         if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION  < 5) {
             $attachments = realpath($upload_file);
             $filename = basename($upload_file);
-            curl_setopt($ch, CURLOPT_POSTFIELDS,
-                array('file' => '@'.$attachments.';filename='.$filename));
+            curl_setopt(
+                $ch,
+                CURLOPT_POSTFIELDS,
+                array('file' => '@'.$attachments.';filename='.$filename)
+            );
             $this->log->addDebug('using legacy file upload');
         } else {
             // CURLFile require PHP > 5.5
             $attachments = new \CURLFile(realpath($upload_file));
             $attachments->setPostFilename(basename($upload_file));
-            curl_setopt($ch, CURLOPT_POSTFIELDS,
-                    array('file' => $attachments));
+            curl_setopt(
+                $ch,
+                CURLOPT_POSTFIELDS,
+                array('file' => $attachments)
+            );
             $this->log->addDebug('using CURLFile='.var_export($attachments, true));
         }
         $this->authorization($ch);
@@ -296,12 +323,15 @@ if (isset($post_data->fields) && !empty($post_data->fields)) $url .= '&fields='.
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->getConfiguration()->isCurlOptSslVerifyPeer());
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_USERAGENT, self::$UserAgent . ($this->getConfiguration()->getUserAgent() ? ' []' : ''));
-        curl_setopt($ch, CURLOPT_HTTPHEADER,
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
             array(
                 'Accept: */*',
                 'Content-Type: multipart/form-data',
                 'X-Atlassian-Token: nocheck',
-                ));
+            )
+        );
         curl_setopt($ch, CURLOPT_VERBOSE, $this->getConfiguration()->isCurlOptVerbose());
         $this->log->addDebug('Curl exec='.$url);
         return $ch;
@@ -366,7 +396,7 @@ if (isset($post_data->fields) && !empty($post_data->fields)) $url .= '&fields='.
             }
         }
         // clean up
-end:
+        end:
         foreach ($chArr as $ch) {
             $this->log->addDebug('CURL Close handle..');
             curl_close($ch);
@@ -391,8 +421,8 @@ end:
     {
         $host = $this->getConfiguration()->getJiraHost();
         
-        if (substr($context,0,1) === '*') {
-            $context = substr($context,1);
+        if (substr($context, 0, 1) === '*') {
+            $context = substr($context, 1);
             
             return $host . '/rest' . '/' . preg_replace('/\//', '', $context, 1);
         }
@@ -423,11 +453,15 @@ end:
     }
     
     protected $timeZone = null;
-    public function getRealDateFormated($dateObject = null, $timeZone = null, $format = 'Y-m-d G:i:s') {
+    public function getRealDateFormated($dateObject = null, $timeZone = null, $format = 'Y-m-d G:i:s')
+    {
         return $this->getRealDate($dateObject, $timeZone)->format($format);
     }
-    public function getRealDate($dateObject = null, $timeZone = null) {
-        if ($dateObject == null) return null;
+    public function getRealDate($dateObject = null, $timeZone = null)
+    {
+        if ($dateObject == null) {
+            return null;
+        }
         
         if ($this->timeZone === null) {
             $this->timeZone = date_default_timezone_get();

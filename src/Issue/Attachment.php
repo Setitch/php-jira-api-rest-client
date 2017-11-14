@@ -11,25 +11,25 @@ class Attachment implements \JsonSerializable
     public $id;
 
    /* @var string */
-   public $filename;
+    public $filename;
 
    /* @var Reporter */
-   public $author;
+    public $author;
 
    /* @var DateTime */
-   public $created;
+    public $created;
 
    /* @var int */
-   public $size;
+    public $size;
 
    /* @var string */
-   public $mimeType;
+    public $mimeType;
 
    /* @var string */
-   public $content;
+    public $content;
 
     /* @var string */
-   public $thumbnail;
+    public $thumbnail;
 
     public function jsonSerialize()
     {
