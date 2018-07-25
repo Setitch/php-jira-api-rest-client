@@ -190,7 +190,7 @@ class AccountService extends \Jira\Api\Client
             $ret = $this->exec($this->uri, $json, 'POST');
         } catch (\Exception $e) {
             if (stripos($e->getMessage(), 'A group or user with this name already exists.') !== 0) {
-                die('a');
+                throw $e;
             } else {
                 throw $e;
             }
