@@ -22,7 +22,7 @@
         "jakub-onderka/php-parallel-lint": "~0.9",
         "phpstan/phpstan": "~0.7"
     },
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Artur (Seti) Łabudziński",
